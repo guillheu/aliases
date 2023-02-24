@@ -19,7 +19,7 @@ function _get_eth_info() {
 while true; do
     block=$(curl --silent -X POST -H "Content-Type: application/json" --data '{"jsonrpc":"2.0","method":"eth_getBlockByNumber","params":["latest", false],"id":1}' $1 | jq '.result.number'  | tr -d '"' | echo "Block number : $((16#$(cut -c 3-)))")
     peer=$(curl --silent -X POST -H "Content-Type: application/json" --data '{"jsonrpc":"2.0","method":"net_peerCount","params":[],"id":2}' $1 | jq '.result'  | tr -d '"' | echo "Peer count : $((16#$(cut -c 3-)))")
-    printf "$block \t| $peer\r"
+    printf "$block \t\t| $peer\r"
     sleep 1
 done
 };
