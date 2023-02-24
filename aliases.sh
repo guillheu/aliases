@@ -18,7 +18,7 @@ alias get-eth-info='_get_eth_info'
 function _get_eth_info() {
 while true; do
     block_raw=$(curl --silent -X POST -H "Content-Type: application/json" --data '{"jsonrpc":"2.0","method":"eth_getBlockByNumber","params":["latest", false],"id":1}' http://localhost:8545 | jq '.result.number'  | tr -d '"')
-    block_formatted=$(printf "Block number: %'d" $((16#$block_raw)))
+    block_formatted=$(printf "Block number: %'d" $(echo "ibase=16; $block_raw" | bc))
     peer_raw=$(curl --silent -X POST -H "Content-Type: application/json" --data '{"jsonrpc":"2.0","method":"net_peerCount","params":[],"id":2}' http://localhost:8545 | jq '.result'  | tr -d '"')
     echo -ne "$block_formatted | Peer count: $peer_raw\r"
     sleep 1
