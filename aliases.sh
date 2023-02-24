@@ -23,5 +23,4 @@ while true; do
     echo -ne "$block_formatted | Peer count: $peer_raw\r"
     sleep 1
 done
-
 };
