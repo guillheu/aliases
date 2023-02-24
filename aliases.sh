@@ -17,10 +17,9 @@ alias docker-build-run='function _docker_build_run() { image_name=$1; shift; doc
 alias get-eth-info='_get_eth_info'
 function _get_eth_info() {
 while true; do
-    block_raw=$(curl --silent -X POST -H "Content-Type: application/json" --data '{"jsonrpc":"2.0","method":"eth_getBlockByNumber","params":["latest", false],"id":1}' http://localhost:8545 | jq '.result.number'  | tr -d '"')
-    block_formatted=$(printf "Block number: %'d" $(echo "ibase=16; $block_raw" | bc))
-    peer_raw=$(curl --silent -X POST -H "Content-Type: application/json" --data '{"jsonrpc":"2.0","method":"net_peerCount","params":[],"id":2}' http://localhost:8545 | jq '.result'  | tr -d '"')
-    echo -ne "$block_formatted | Peer count: $peer_raw\r"
+    block=$(curl --silent -X POST -H "Content-Type: application/json" --data '{"jsonrpc":"2.0","method":"eth_getBlockByNumber","params":["latest", false],"id":1}' $1 | jq '.result.number'  | tr -d '"' | echo "$((16#$(cut -c 3-)))")
+    peer=$(curl --silent -X POST -H "Content-Type: application/json" --data '{"jsonrpc":"2.0","method":"net_peerCount","params":[],"id":2}' $1 | jq '.result'  | tr -d '"' | echo "Peer count : $((16#$(cut -c 3-)))")
+    printf "$block | $peer \r"
     sleep 1
 done
 };
