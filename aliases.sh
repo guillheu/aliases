@@ -16,7 +16,7 @@ alias dc-reset='function _docker-compose-reset-function() { if [[ $* == *"-v"* ]
 alias docker-build-run='function _docker_build_run() { image_name=$1; shift; docker build -t $image_name . && docker run --rm "$@" $image_name; }; _docker_build_run'
 alias get-eth-info='_get_eth_info'
 alias start-http='python -m http.server $1'
-alias get-peers='kubectl exec --namespace $1 $1-0 -c client -- geth attach /data/q/geth.ipc --exec "admin.peers.map(function(obj) {return obj.enode;})" | jq'
+alias get-peers='kubectl exec --namespace $1 $(echo $1)-0 -c client -- geth attach /data/q/geth.ipc --exec "admin.peers.map(function(obj) {return obj.enode;})" | jq'
 function _get_eth_info() {
 while true; do
     block=$(curl --silent -X POST -H "Content-Type: application/json" --data '{"jsonrpc":"2.0","method":"eth_getBlockByNumber","params":["latest", false],"id":1}' $1 | jq '.result.number'  | tr -d '"' | echo "$((16#$(cut -c 3-)))")
