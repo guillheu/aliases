@@ -6,7 +6,6 @@ alias get-grafana-secret='kubectl get secret grafana -n grafana -o jsonpath="{.d
 alias make-sealed-secret='cat secret.yaml | kubeseal --controller-name sealed-secrets --controller-namespace sealed-secrets -o yaml > sealed-secret.yaml'
 alias k='kubectl'
 alias kns='kubens'
-alias q-key-import='function _q-key-import() { docker run -v "$1":/data/keystore/key -it --entrypoint="/bin/sh" --rm qblockchain/q-client:1.2.2 -c "geth --datadir /data account import /data/keystore/key && cat /data/keystore/UTC--*"; }; _q-key-import'
 alias get-docker-ip='docker inspect -f "{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}"'
 alias cl='clear'
 alias cln='clear &&'
