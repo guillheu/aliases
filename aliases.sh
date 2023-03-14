@@ -30,12 +30,12 @@ readarray -t new_names < songlist
 for i in "${!new_names[@]}"
 do
     old_audio_name="audio_$(printf '%02d' $((i+1))).wav"
-    new_audio_name="${new_names[$i]}"
+    new_audio_name="${i}-${new_names[$i]}"
     new_audio_name=${new_audio_name// /_}
     new_audio_name=${new_audio_name//\//-} 
     mv "$old_audio_name" "$new_audio_name".wav
     old_inf_name="audio_$(printf '%02d' $((i+1))).inf"
-    new_inf_name="${new_names[$i]}"
+    new_inf_name="${i}-${new_names[$i]}"
     new_inf_name=${new_inf_name// /_}
     new_inf_name=${new_inf_name//\//-}
     mv "$old_inf_name" "$new_inf_name".inf
