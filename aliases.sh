@@ -25,3 +25,13 @@ while true; do
     sleep 1
 done
 };
+alias rename-tracks='
+readarray -t new_names < songlist;
+for i in "${!new_names[@]}";
+do
+    old_name="audio_$(printf '%02d' $((i+1))).wav";
+    new_name="${new_names[$i]}";
+    new_name=${new_name// /_};
+    new_name=${new_name//\//-};
+    mv "$old_name" "$new_name".wav;
+done'
