@@ -17,6 +17,7 @@ alias get-eth-info='_get_eth_info'
 alias start-http='python -m http.server $1'
 alias let-it-rip='cdda2wav -cddbp-server=gnudb.gnudb.org -cddbp-port=8080 -vall cddb=-1 speed=4 -paranoia paraopts=proof -B -D /dev/sr0'
 alias extract-gif-frames='for f in *.gif; do mkdir "${f%.*}" && ffmpeg -i "$f" -fps_mode:v vfr "${f%.*}/%03d.png" && convert "${f%.*}"/*.png +append "${f%.*}_combined.png" && rm -r "${f%.*}"; done'
+alias git-config='git config user.name guillheu && git config user.email guillheu@gmail.com'
 function _get_eth_info() {
 while true; do
     block=$(curl --silent -X POST -H "Content-Type: application/json" --data '{"jsonrpc":"2.0","method":"eth_getBlockByNumber","params":["latest", false],"id":1}' $1 | jq '.result.number'  | tr -d '"' | echo "$((16#$(cut -c 3-)))")
