@@ -9,10 +9,7 @@ alias kns='kubens'
 alias get-docker-ip='docker inspect -f "{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}"'
 alias cl='clear'
 alias cln='clear &&'
-function clnp {
-  clear
-  eval "$(history -p !!)"
-}
+alias clnp='function _clnp {clear; eval "$(history -p !!)"}'
 alias loop='function _loop() { sleep_duration=$1; shift; while true; do "$@"; sleep $sleep_duration; done }; _loop'
 alias list-aliases='alias | awk -F"=" '\''$1 ~ /^alias / {print $1}'\'''
 alias dc-reset='function _docker-compose-reset-function() { if [[ $* == *"-v"* ]]; then docker-compose down -v && docker-compose up -d; else docker-compose down && docker-compose up -d; fi }; _docker-compose-reset-function()'
