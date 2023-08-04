@@ -4,9 +4,10 @@ alias lta='ls -lta'
 alias get-argocd-secret='kubectl get secret argocd-initial-admin-secret -n argocd -o jsonpath="{.data.password}" | base64 -d; echo'
 function _get-grafana-secret {
   namespace=${1:-grafana} # Default namespace to 'grafana' if not provided
-  kubectl get secret grafana -n $namespace -o jsonpath="{.data.admin-password}" | base64 -d; echo
+  secret=${2:-grafana} # Default secret name is 'grafana'
+  kubectl get secret $secret -n $namespace -o jsonpath="{.data.admin-password}" | base64 -d; echo
 }
-
+alias get-grafana-secret-prom='_get-grafana-secret prometheus prometheus-grafana'
 alias get-grafana-secret='_get-grafana-secret'
 alias get-minio-secret='kubectl get secret minio -n minio -o jsonpath="{.data.root-password}" | base64 -d; echo'
 alias make-sealed-secret='cat secret.yaml | kubeseal --controller-name sealed-secrets --controller-namespace sealed-secrets -o yaml > sealed-secret.yaml'
