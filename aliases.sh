@@ -11,6 +11,10 @@ alias get-grafana-secret-prom='_get-grafana-secret prometheus prometheus-grafana
 alias get-grafana-secret='_get-grafana-secret'
 alias get-minio-secret='kubectl get secret minio -n minio -o jsonpath="{.data.root-password}" | base64 -d; echo'
 alias make-sealed-secret='cat secret.yaml | kubeseal --controller-name sealed-secrets --controller-namespace sealed-secrets -o yaml > sealed-secret.yaml'
+function _istio_proxy_quit() {
+  kubectl exec "$1" -n "$2" -c istio-proxy -- curl -fsI -X POST http://localhost:15000/quitquitquit
+}
+alias istio_proxy_quit='_istio_proxy_quit'
 alias k='kubectl'
 alias kns='kubens'
 alias get-docker-ip='docker inspect -f "{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}"'
