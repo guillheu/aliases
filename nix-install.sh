@@ -1,3 +1,6 @@
+# Exit on any error
+set -e
+
 # Vars
 
 # The GitHub username to check against
@@ -50,7 +53,10 @@ echo "####################################################"
 echo ""
 
 # Adding `nix.settings.experimental-features = [ "nix-command" "flakes" ];` to the NixOS config
-sed -i '$!{h;d;};x;s/}$/  nix.settings.experimental-features = [ "nix-command" "flakes" ];\n}/' "$NIXOS_CONFIG_FILE"
+sudo sed -i '$!{h;d;};x;s/}$/  nix.settings.experimental-features = [ "nix-command" "flakes" ];\n}/' "$NIXOS_CONFIG_FILE"
+
+# Adding git to system packages
+sudo sed -i 's/  #  wget\n  ];/  #  wget\n    git\n  ];/g' "$NIXOS_CONFIG_FILE"
 
 # Rebuilding the system from the new config
 sudo nixos-rebuild switch
