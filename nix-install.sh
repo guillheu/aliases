@@ -12,7 +12,7 @@ SSH_DIR="$HOME/.ssh"
 # NixOS default configuration file (to inject initial flakes config)
 NIXOS_CONFIG_FILE="/etc/nixos/configuration.nix"
 
-# NixOS hardware configuration file 
+# NixOS hardware configuration file
 NIXOS_HARDWARE_CONFIG_FILE="/etc/nixos/hardware-configuration.nix"
 
 # NixConfigs git repo directory
@@ -118,6 +118,8 @@ else
     ssh-keygen -t ed25519
 
     echo "A new SSH key has been generated."
+    echo "Scan this code to copy the new SSH key to your phone's clipboard"
+    qrencode -t ANSI < ~/.ssh/*.pub
 fi
 
 while [ -z "$MATCHING_KEY_FILE" ]
