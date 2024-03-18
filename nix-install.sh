@@ -149,8 +149,8 @@ echo ""
 
 # Creating /etc/NixConfigs directory as root and making NIX_USERNAME the owner
 sudo mkdir $NIX_CONFIGS_REPO_PATH
-chown $USER $NIX_CONFIGS_REPO_PATH
-chgrp users $NIX_CONFIGS_REPO_PATH
+sudo chown $USER $NIX_CONFIGS_REPO_PATH
+sudo chgrp users $NIX_CONFIGS_REPO_PATH
 
 # Clone the repository using the specified SSH key and username
 GIT_SSH_COMMAND="ssh -i $MATCHING_KEY_FILE -o IdentitiesOnly=yes" git clone git@github.com:$GITHUB_USERNAME/NixConfigs $NIX_CONFIGS_REPO_PATH
