@@ -194,3 +194,29 @@ while true; do
         * ) echo "Please answer yes (y) or no (n).";;
     esac
 done
+
+echo ""
+echo "####################################################"
+echo "############## Building NixOS system ###############"
+echo "############## And Home-manager user ##############"
+echo "####################################################"
+echo ""
+
+sudo nixos-rebuild switch --flake $NIX_CONFIGS_REPO_PATH#$NIX_SYSTEM
+home-manager switch --flake $NIX_CONFIGS_REPO_PATH#$USER
+
+
+# Prompt for a reboot to finalize the build
+while true; do
+    read -p "Reboot now? (y/n) " yn
+    case $yn in
+        [Yy]* )
+          reboot --now
+          break
+          ;;
+        * ) 
+          echo "Finished"
+          break
+          ;;
+    esac
+done
