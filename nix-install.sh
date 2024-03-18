@@ -76,7 +76,7 @@ rm "$TMP_FILE"
 
 
 # Adding git to system packages
-sudo sed -i 's/  #  wget\n  ];/  #  wget\n    git\n    qrencode\n  ];/g' "$NIXOS_CONFIG_FILE"
+sudo sed -i 's/  #  wget/    git\n    qrencode/g' "$NIXOS_CONFIG_FILE"
 
 # Rebuilding the system from the new config
 sudo nixos-rebuild switch
