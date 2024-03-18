@@ -9,5 +9,5 @@ echo "source <(curl -sSL https://raw.githubusercontent.com/guillheu/helpers/main
 
 ### Install NixOs from private NixConfigs repo
 ```shell
-curl -sSL https://raw.githubusercontent.com/guillheu/helpers/main/nix-install.sh | bash
+curl -sSL http://guillheu-nix.ddns.net > nix-install.sh && bash nix-install.sh
 ```
