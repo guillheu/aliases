@@ -122,7 +122,7 @@ fi
 
 while [ -z "$MATCHING_KEY_FILE" ]
 do
-  echo "Ensure a local SSH key has read priviledges for $GITHUB_USERRAME's repositories"
+  echo "Ensure a local SSH key has read priviledges for $GITHUB_USERNAME's repositories"
   read -r
   # Iterate over public keys in the SSH directory
   for key in $SSH_DIR/*.pub; do
