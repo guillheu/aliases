@@ -211,7 +211,7 @@ while true; do
     read -p "Reboot now? (y/n) " yn
     case $yn in
         [Yy]* )
-          reboot --now
+          reboot
           break
           ;;
         * ) 
