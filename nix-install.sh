@@ -9,6 +9,9 @@ GITHUB_USERNAME="guillheu"
 # Directory where SSH keys are stored
 SSH_DIR="$HOME/.ssh"
 
+# Default ssh key file name (as defined in NixConfigs/users/dante/ssh.nix)
+SSH_FILE="id_guillheu"
+
 # NixOS default configuration file (to inject initial flakes config)
 NIXOS_CONFIG_FILE="/etc/nixos/configuration.nix"
 
@@ -102,8 +105,11 @@ if [ "$PUB_FILES" != "0" ]; then
 else
     echo "No SSH public keys found in $SSH_DIR. Generating a new SSH key..."
 
+    # Key filename to generate
+    SSH_KEY_FILE=$SSH_DIR/$SSH_FILE
+
     # Generate a new SSH key
-    ssh-keygen -t ed25519
+    ssh-keygen -t ed25519 -f $SSH_KEY_FILE
 
     echo "A new SSH key has been generated."
     echo "Scan this code to copy the new SSH key to your phone's clipboard"
