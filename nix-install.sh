@@ -94,18 +94,6 @@ echo "###### With permissions for the private repo #######"
 echo "####################################################"
 echo ""
 
-# Fetch public keys from GitHub for the specified user
-GITHUB_KEYS=$(curl -s "https://github.com/$GITHUB_USERNAME.keys")
-
-# Exit if unable to fetch keys from GitHub
-if [ -z "$GITHUB_KEYS" ]; then
-    echo "Could not fetch keys for user $GITHUB_USERNAME, or no keys exist."
-    exit 2
-fi
-
-# Flag to indicate if a matching key is found
-MATCHING_KEY_FILE=""
-
 # Create SSH key if none exist, then wait for user to import it onto github
 PUB_FILES=$(ls $SSH_DIR/*.pub 2> /dev/null | wc -l)
 
@@ -126,6 +114,19 @@ while [ -z "$MATCHING_KEY_FILE" ]
 do
   echo "Ensure a local SSH key has read priviledges for $GITHUB_USERNAME's repositories"
   read -r
+
+  # Fetch public keys from GitHub for the specified user
+  GITHUB_KEYS=$(curl -s "https://github.com/$GITHUB_USERNAME.keys")
+
+  # Exit if unable to fetch keys from GitHub
+  if [ -z "$GITHUB_KEYS" ]; then
+      echo "Could not fetch keys for user $GITHUB_USERNAME, or no keys exist."
+      exit 2
+  fi
+
+  # Flag to indicate if a matching key is found
+  MATCHING_KEY_FILE=""
+
   # Iterate over public keys in the SSH directory
   for key in $SSH_DIR/*.pub; do
       # Read the contents of the public key
