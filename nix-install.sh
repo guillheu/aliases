@@ -106,24 +106,36 @@ fi
 # Flag to indicate if a matching key is found
 MATCHING_KEY_FILE=""
 
-# Iterate over public keys in the SSH directory
-for key in $SSH_DIR/*.pub; do
-    # Read the contents of the public key
-    CONTENT=$(cut -d ' ' -f 1,2 "$key")
+# Create SSH key if none exist, then wait for user to import it onto github
+PUB_FILES=$(ls $SSH_DIR/*.pub 2> /dev/null | wc -l)
 
-    # Check if the current key exists in the GitHub keys
-    if echo "$GITHUB_KEYS" | grep -q "$CONTENT"; then
-        MATCHING_KEY_FILE="$key"
-        break
-    fi
-done
-
-# Check if a matching key file was found
-if [ -n "$MATCHING_KEY_FILE" ]; then
-    echo "Matching key file: $MATCHING_KEY_FILE"
+if [ "$PUB_FILES" != "0" ]; then
+    echo "SSH public key(s) found in $SSH_DIR."
 else
-    echo "No matching keys found for GitHub user: $GITHUB_USERNAME"
+    echo "No SSH public keys found in $SSH_DIR. Generating a new SSH key..."
+
+    # Generate a new SSH key
+    ssh-keygen -t ed25519
+
+    echo "A new SSH key has been generated."
 fi
+
+while [ -z "$MATCHING_KEY_FILE" ]
+do
+  echo "Ensure a local SSH key has read priviledges for $GITHUB_USERRAME's repositories"
+  read -r
+  # Iterate over public keys in the SSH directory
+  for key in $SSH_DIR/*.pub; do
+      # Read the contents of the public key
+      CONTENT=$(cut -d ' ' -f 1,2 "$key")
+
+      # Check if the current key exists in the GitHub keys
+      if echo "$GITHUB_KEYS" | grep -q "$CONTENT"; then
+          MATCHING_KEY_FILE="$key"
+          break
+      fi
+  done
+done
 
 echo ""
 echo "####################################################"
