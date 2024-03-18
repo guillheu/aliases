@@ -84,6 +84,7 @@ sudo nixos-rebuild switch
 # Installing home-manager
 nix-channel --add https://github.com/nix-community/home-manager/archive/$NIXOS_CHANNEL.tar.gz home-manager
 nix-channel --update
+export NIX_PATH=$NIX_PATH:$HOME/.nix-defexpr/channels
 nix-shell '<home-manager>' -A install
 
 echo ""
