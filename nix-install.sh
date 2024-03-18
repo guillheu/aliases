@@ -53,7 +53,27 @@ echo "####################################################"
 echo ""
 
 # Adding `nix.settings.experimental-features = [ "nix-command" "flakes" ];` to the NixOS config
-sudo sed -i '$!{h;d;};x;s/}$/  nix.settings.experimental-features = [ "nix-command" "flakes" ];\n}/' "$NIXOS_CONFIG_FILE"
+# sudo sed -i '$!{h;d;};x;s/}$/  nix.settings.experimental-features = [ "nix-command" "flakes" ];\n}/' "$NIXOS_CONFIG_FILE"
+
+# Create a temporary file
+TMP_FILE=$(mktemp)
+
+# Capture everything except the last line of the original file
+head -n -1 "$NIXOS_CONFIG_FILE" > "$TMP_FILE"
+
+# Add the new content before the last line (replacing the last '}')
+echo '  nix.settings.experimental-features = [ "nix-command" "flakes" ];' >> "$TMP_FILE"
+
+# Add the last line (the closing '}')
+tail -n 1 "$NIXOS_CONFIG_FILE" | grep '}' >> "$TMP_FILE" || echo "}" >> "$TMP_FILE"
+
+# Use sudo to overwrite the original file with the temporary file
+sudo cp "$TMP_FILE" "$NIXOS_CONFIG_FILE"
+
+# Remove the temporary file
+rm "$TMP_FILE"
+
+
 
 # Adding git to system packages
 sudo sed -i 's/  #  wget\n  ];/  #  wget\n    git\n  ];/g' "$NIXOS_CONFIG_FILE"
